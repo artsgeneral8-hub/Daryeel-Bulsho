@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Boos Kala Iibsi</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f2f4f7;
+    color:#222;
+}
+
+/* HEADER */
+.header{
+    background:#123c69;
+    color:white;
+    text-align:center;
+    padding:22px 15px;
+}
+
+.header h1{
+    font-size:25px;
+    margin-bottom:7px;
+}
+
+.header p{
+    font-size:14px;
+    opacity:.9;
+}
+
+/* CONTAINER */
+.container{
+    width:95%;
+    max-width:900px;
+    margin:20px auto;
+}
+
+/* CARD */
+.card{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.card h2{
+    color:#123c69;
+    font-size:19px;
+    margin-bottom:18px;
+    border-bottom:2px solid #eee;
+    padding-bottom:10px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-group{
+    margin-bottom:5px;
+}
+
+.form-group.full{
+    grid-column:1 / -1;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccd3dc;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    background:#fff;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#123c69;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+/* BUTTONS */
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+button{
+    border:none;
+    padding:13px 20px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save{
+    background:#123c69;
+    color:white;
+}
+
+.reset{
+    background:#777;
+    color:white;
+}
+
+.print{
+    background:#198754;
+    color:white;
+}
+
+/* SEARCH */
+.search{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.search input{
+    flex:1;
+}
+
+/* RECORD */
+.record{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:12px;
+    background:#fafafa;
+}
+
+.record h3{
+    color:#123c69;
+    margin-bottom:10px;
+}
+
+.record p{
+    font-size:14px;
+    margin:5px 0;
+}
+
+.record-buttons{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.delete{
+    background:#dc3545;
+    color:white;
+}
+
+.view{
+    background:#0d6efd;
+    color:white;
+}
+
+/* SUCCESS */
+.success{
+    display:none;
+    background:#d1e7dd;
+    color:#0f5132;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+/* PRINT DOCUMENT */
+#printArea{
+    display:none;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:25px 10px;
+    color:#777;
+    font-size:13px;
+}
+
+/* MOBILE */
+@media(max-width:650px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .header h1{
+        font-size:21px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .buttons button{
+        width:100%;
+    }
+
+    .search{
+        flex-direction:column;
+    }
+}
+
+/* PRINT */
+@media print{
+
+    body{
+        background:white;
+    }
+
+    body > *{
+        display:none !important;
+    }
+
+    #printArea{
+        display:block !important;
+        padding:30px;
+        color:#000;
+    }
+
+    .print-header{
+        text-align:center;
+        border-bottom:2px solid #000;
+        padding-bottom:15px;
+        margin-bottom:20px;
+    }
+
+    .print-header h1{
+        font-size:25px;
+    }
+
+    .print-header p{
+        margin-top:5px;
+    }
+
+    .print-table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:15px;
+    }
+
+    .print-table td{
+        border:1px solid #333;
+        padding:10px;
+    }
+
+    .print-table td:first-child{
+        font-weight:bold;
+        width:35%;
+    }
+
+    .signature{
+        display:flex;
+        justify-content:space-between;
+        margin-top:80px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <h1>BOOS KALA IIBSI</h1>
+    <p>Diiwaangelinta Heshiiska Kala Iibsiga Booska</p>
+</header>
+
+<div class="container">
+
+    <!-- FORM -->
+    <div class="card">
+
+        <h2>📋 Xogta Booska Kala Iibsanaya</h2>
+
+        <div id="success" class="success">
+            Heshiiska si guul leh ayaa loo kaydiyey.
+        </div>
+
+        <form id="saleForm">
+
+            <div class="grid">
+
+                <!-- BUYER -->
+                <div class="form-group">
+                    <label>Magaca Boos-Gataha</label>
+                    <input
+                        type="text"
+                        id="buyerName"
+                        placeholder="Geli magaca gataha"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Number-ka Gataha</label>
+                    <input
+                        type="tel"
+                        id="buyerPhone"
+                        placeholder="Geli number-ka"
+                        required
+                    >
+                </div>
+
+                <!-- BUYER AGENT -->
+                <div class="form-group">
+                    <label>Magaca Wakiilka Gataha</label>
+                    <input
+                        type="text"
+                        id="buyerAgent"
+                        placeholder="Geli magaca wakiilka"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Number-ka Wakiilka</label>
+                    <input
+                        type="tel"
+                        id="agentPhone"
+                        placeholder="Geli number-ka wakiilka"
+                    >
+                </div>
+
+                <!-- SELLER -->
+                <div class="form-group">
+                    <label>Magaca Gadaha / Iibiyaha</label>
+                    <input
+                        type="text"
+                        id="sellerName"
+                        placeholder="Geli magaca iibiyaha"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Number-ka Gadaha</label>
+                    <input
+                        type="tel"
+                        id="sellerPhone"
+                        placeholder="Geli number-ka iibiyaha"
+                        required
+                    >
+                </div>
+
+                <!-- ADDRESS -->
+                <div class="form-group full">
+                    <label>📍 Address-ka Meesha Boosku Ku Yaallo</label>
+                    <input
+                        type="text"
+                        id="address"
+                        placeholder="Tusaale: Bosaso, Xaafadda..."
+                        required
+                    >
+                </div>
+
+                <!-- SIZE -->
+                <div class="form-group">
+                    <label>Baaxadda Booska</label>
+                    <input
+                        type="text"
+                        id="size"
+                        placeholder="Tusaale: 20m × 30m"
+                        required
+                    >
+                </div>
+
+                <!-- AREA -->
+                <div class="form-group">
+                    <label>Wadarta Baaxadda</label>
+                    <input
+                        type="text"
+                        id="area"
+                        placeholder="Tusaale: 600 m²"
+                    >
+                </div>
+
+                <!-- PRICE -->
+                <div class="form-group">
+                    <label>Qiimaha Booska</label>
+                    <input
+                        type="number"
+                        id="price"
+                        placeholder="Geli qiimaha"
+                        required
+                    >
+                </div>
+
+                <!-- DATE -->
+                <div class="form-group">
+                    <label>Taariikhda Kala Iibsiga</label>
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+                </div>
+
+                <!-- CONTRACT -->
+                <div class="form-group">
+                    <label>Lambarka Heshiiska</label>
+                    <input
+                        type="text"
+                        id="contractNo"
+                        placeholder="Tusaale: BK-0001"
+                        required
+                    >
+                </div>
+
+                <!-- EXTRA -->
+                <div class="form-group full">
+                    <label>Faahfaahin Dheeraad ah</label>
+                    <textarea
+                        id="notes"
+                        placeholder="Halkan ku qor faahfaahin kale..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit" class="save">
+                    💾 Kaydi Heshiiska
+                </button>
+
+                <button
+                    type="button"
+                    class="reset"
+                    onclick="resetForm()">
+                    🔄 Nadiifi
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- RECORDS -->
+    <div class="card">
+
+        <h2>📁 Heshiisyada La Kaydiyey</h2>
+
+        <div class="search">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Raadi magaca, number ama heshiiska..."
+                oninput="showRecords()"
+            >
+        </div>
+
+        <div id="records"></div>
+
+    </div>
+
+</div>
+
+
+<footer>
+    © 2026 — Boos Kala Iibsi
+</footer>
+
+
+<!-- PRINT AREA -->
+<div id="printArea">
+
+    <div class="print-header">
+        <h1>BOOS KALA IIBSI</h1>
+        <p>Heshiiska Kala Iibsiga Booska</p>
+    </div>
+
+    <h3>Macluumaadka Heshiiska</h3>
+
+    <table class="print-table">
+
+        <tr>
+            <td>Lambarka Heshiiska</td>
+            <td id="pContract"></td>
+        </tr>
+
+        <tr>
+            <td>Taariikhda</td>
+            <td id="pDate"></td>
+        </tr>
+
+        <tr>
+            <td>Magaca Boos-Gataha</td>
+            <td id="pBuyer"></td>
+        </tr>
+
+        <tr>
+            <td>Number-ka Gataha</td>
+            <td id="pBuyerPhone"></td>
+        </tr>
+
+        <tr>
+            <td>Wakiilka Gataha</td>
+            <td id="pAgent"></td>
+        </tr>
+
+        <tr>
+            <td>Number-ka Wakiilka</td>
+            <td id="pAgentPhone"></td>
+        </tr>
+
+        <tr>
+            <td>Magaca Gadaha / Iibiyaha</td>
+            <td id="pSeller"></td>
+        </tr>
+
+        <tr>
+            <td>Number-ka Gadaha</td>
+            <td id="pSellerPhone"></td>
+        </tr>
+
+        <tr>
+            <td>Address-ka Booska</td>
+            <td id="pAddress"></td>
+        </tr>
+
+        <tr>
+            <td>Baaxadda Booska</td>
+            <td id="pSize"></td>
+        </tr>
+
+        <tr>
+            <td>Wadarta Baaxadda</td>
+            <td id="pArea"></td>
+        </tr>
+
+        <tr>
+            <td>Qiimaha Booska</td>
+            <td id="pPrice"></td>
+        </tr>
+
+        <tr>
+            <td>Faahfaahin</td>
+            <td id="pNotes"></td>
+        </tr>
+
+    </table>
+
+
+    <div class="signature">
+
+        <div>
+            _______________________<br>
+            <b>Boos-Gataha</b>
+        </div>
+
+        <div>
+            _______________________<br>
+            <b>Gadaha / Iibiyaha</b>
+        </div>
+
+        <div>
+            _______________________<br>
+            <b>Wakiil / Markhaati</b>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let records =
+    JSON.parse(localStorage.getItem("boosKalaIibsi")) || [];
+
+
+/* =========================
+   FORM SUBMIT
+========================= */
+
+document
+.getElementById("saleForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const data = {
+
+        id: Date.now(),
+
+        buyerName:
+            document.getElementById("buyerName").value,
+
+        buyerPhone:
+            document.getElementById("buyerPhone").value,
+
+        buyerAgent:
+            document.getElementById("buyerAgent").value,
+
+        agentPhone:
+            document.getElementById("agentPhone").value,
+
+        sellerName:
+            document.getElementById("sellerName").value,
+
+        sellerPhone:
+            document.getElementById("sellerPhone").value,
+
+        address:
+            document.getElementById("address").value,
+
+        size:
+            document.getElementById("size").value,
+
+        area:
+            document.getElementById("area").value,
+
+        price:
+            document.getElementById("price").value,
+
+        date:
+            document.getElementById("date").value,
+
+        contractNo:
+            document.getElementById("contractNo").value,
+
+        notes:
+            document.getElementById("notes").value
+
+    };
+
+
+    records.push(data);
+
+    localStorage.setItem(
+        "boosKalaIibsi",
+        JSON.stringify(records)
+    );
+
+
+    document.getElementById("success").style.display =
+        "block";
+
+
+    setTimeout(function(){
+
+        document.getElementById("success").style.display =
+            "none";
+
+    },3000);
+
+
+    showRecords();
+
+    resetForm();
+
+});
+
+
+/* =========================
+   SHOW RECORDS
+========================= */
+
+function showRecords(){
+
+    const container =
+        document.getElementById("records");
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+
+    container.innerHTML = "";
+
+
+    const filtered =
+        records.filter(function(item){
+
+            return (
+
+                item.buyerName.toLowerCase().includes(search) ||
+
+                item.sellerName.toLowerCase().includes(search) ||
+
+                item.buyerPhone.includes(search) ||
+
+                item.sellerPhone.includes(search) ||
+
+                item.contractNo.toLowerCase().includes(search)
+
+            );
+
+        });
+
+
+    if(filtered.length === 0){
+
+        container.innerHTML =
+            "<p style='text-align:center;color:#777'>Heshiis lama helin.</p>";
+
+        return;
+
+    }
+
+
+    filtered
+    .slice()
+    .reverse()
+    .forEach(function(item){
+
+        const div =
+            document.createElement("div");
+
+        div.className = "record";
+
+
+        div.innerHTML = `
+
+            <h3>
+                Heshiis: ${escapeHTML(item.contractNo)}
+            </h3>
+
+            <p>
+                <b>Gataha:</b>
+                ${escapeHTML(item.buyerName)}
+            </p>
+
+            <p>
+                <b>Gadaha:</b>
+                ${escapeHTML(item.sellerName)}
+            </p>
+
+            <p>
+                <b>Address:</b>
+                ${escapeHTML(item.address)}
+            </p>
+
+            <p>
+                <b>Baaxadda:</b>
+                ${escapeHTML(item.size)}
+            </p>
+
+            <p>
+                <b>Qiimaha:</b>
+                ${escapeHTML(item.price)}
+            </p>
+
+            <div class="record-buttons">
+
+                <button
+                    class="view"
+                    onclick="printRecord(${item.id})">
+                    🖨 Daabac
+                </button>
+
+                <button
+                    class="delete"
+                    onclick="deleteRecord(${item.id})">
+                    🗑 Tirtir
+                </button>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function deleteRecord(id){
+
+    if(!confirm("Ma hubtaa inaad tirtirayso heshiiskan?")){
+        return;
+    }
+
+
+    records =
+        records.filter(function(item){
+
+            return item.id !== id;
+
+        });
+
+
+    localStorage.setItem(
+        "boosKalaIibsi",
+        JSON.stringify(records)
+    );
+
+
+    showRecords();
+
+}
+
+
+/* =========================
+   PRINT
+========================= */
+
+function printRecord(id){
+
+    const item =
+        records.find(function(x){
+
+            return x.id === id;
+
+        });
+
+
+    if(!item) return;
+
+
+    document.getElementById("pContract").textContent =
+        item.contractNo;
+
+    document.getElementById("pDate").textContent =
+        item.date;
+
+    document.getElementById("pBuyer").textContent =
+        item.buyerName;
+
+    document.getElementById("pBuyerPhone").textContent =
+        item.buyerPhone;
+
+    document.getElementById("pAgent").textContent =
+        item.buyerAgent || "-";
+
+    document.getElementById("pAgentPhone").textContent =
+        item.agentPhone || "-";
+
+    document.getElementById("pSeller").textContent =
+        item.sellerName;
+
+    document.getElementById("pSellerPhone").textContent =
+        item.sellerPhone;
+
+    document.getElementById("pAddress").textContent =
+        item.address;
+
+    document.getElementById("pSize").textContent =
+        item.size;
+
+    document.getElementById("pArea").textContent =
+        item.area || "-";
+
+    document.getElementById("pPrice").textContent =
+        item.price;
+
+    document.getElementById("pNotes").textContent =
+        item.notes || "-";
+
+
+    window.print();
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetForm(){
+
+    document
+    .getElementById("saleForm")
+    .reset();
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(text){
+
+    return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+showRecords();
+
+</script>
+
+</body>
+</html>
